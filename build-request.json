@@ -1,0 +1,41 @@
+{
+  "kind": "build_request",
+  "title": "Fix student registration flow",
+  "projectName": "FaceAttend",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "text": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form (name, student ID, and photo) in the RegisterStudent component without errors.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "i cant register a student"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin can fill in student name, student ID, and provide a photo (via webcam or file upload) in the RegisterStudent form.",
+        "Submitting the form successfully creates a new student profile in the backend without throwing an error.",
+        "The newly registered student appears in the StudentsManagement list after registration.",
+        "Appropriate success or error feedback is shown to the admin after form submission.",
+        "If backend validation fails (e.g., duplicate student ID), the form displays a meaningful error message."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not change the overall single-actor Motoko architecture in backend/main.mo.",
+    "Do not modify any files listed in frontend.immutablePaths."
+  ],
+  "nonGoals": [
+    "Adding new student profile fields beyond name, student ID, and photo.",
+    "Changing the face recognition scanning or attendance marking logic.",
+    "Modifying the admin authentication or role-based access control logic."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

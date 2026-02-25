@@ -1,0 +1,16 @@
+{
+  "frontend/src/App.tsx": "Main application component that handles authentication state, profile setup, and routes between admin dashboard and student attendance views with theme provider.",
+  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for all backend operations. Enhanced registerStudentProfile and updateStudentProfile mutations with better ICP trap error message extraction (parsing \"Reject message\" and \"trapped explicitly\" patterns) to surface meaningful error messages to the UI.",
+  "frontend/src/components/Header.tsx": "Application header with branding, user profile display, theme toggle, and authentication controls.",
+  "frontend/src/components/Footer.tsx": "Simple footer component with copyright and caffeine.ai attribution.",
+  "frontend/src/components/ProfileSetupModal.tsx": "Modal dialog for first-time user profile setup requiring name input.",
+  "frontend/src/components/AccessDeniedScreen.tsx": "Landing page for unauthenticated users with login prompt and app description.",
+  "frontend/src/pages/AdminDashboard.tsx": "Admin dashboard with tabbed interface for student management, registration, and attendance history.",
+  "frontend/src/pages/StudentAttendance.tsx": "Student view with face recognition scanner and personal attendance summary.",
+  "frontend/src/components/admin/StudentsManagement.tsx": "Admin component displaying searchable table of all registered students with avatars.",
+  "frontend/src/components/admin/RegisterStudent.tsx": "Admin form for registering new students with camera capture or file upload for face photos. Fixed camera initialization (calls startCamera directly on button click instead of via useEffect), added upload progress bar using ExternalBlob.withUploadProgress(), improved error handling with user-friendly messages, and added loading/disabled states during submission.",
+  "frontend/src/components/admin/AttendanceHistory.tsx": "Admin component showing searchable attendance records table with CSV export functionality.",
+  "frontend/src/components/student/FaceRecognitionScanner.tsx": "Camera-based face recognition component that captures photos, compares with stored images, and records attendance.",
+  "frontend/src/components/student/AttendanceList.tsx": "Scrollable list displaying student's attendance records with dates and times.",
+  "frontend/src/index.css": "Global styles with OKLCH color system featuring blue/indigo/purple theme for both light and dark modes."
+}

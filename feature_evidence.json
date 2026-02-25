@@ -1,0 +1,27 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-fix-the-student-registration-feature-so-that-an-admin-can-successfully-register-a-new-student-by-submitting-the-registration-form-name-student-id-and-photo-in-the-registerstudent-component-without-errors",
+      "featureTitle": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form (name, student ID, and photo) in the RegisterStudent component without errors.",
+      "files": [
+        "frontend/src/components/admin/RegisterStudent.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

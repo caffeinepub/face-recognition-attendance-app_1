@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "Student registration is broken/not working"
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-deploy-the-face-recognition-attendance-app-faceattend-to-the-internet-computer-mainnet-so-it-is-publicly-accessible-via-a-live-url-ensure-both-the-frontend-and-backend-canisters-are-deployed-to-the-ic-mainnet-network",
+      "title": "Deploy the Face Recognition Attendance App (FaceAttend) to the Internet Computer mainnet so it is publicly accessible via a live URL. Ensure both the frontend and backend canisters are deployed to the IC mainnet network.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-student-registration-feature-so-that-an-admin-can-successfully-register-a-new-student-by-submitting-the-registration-form-name-student-id-and-photo-in-the-registerstudent-component-without-errors",
+      "title": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form (name, student ID, and photo) in the RegisterStudent component without errors.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [],
+  "projectName": "Publish app to mainnet and make it publicly accessible",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

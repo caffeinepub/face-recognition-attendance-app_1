@@ -1,0 +1,35 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Fix student registration flow",
+  "requirements": [
+    {
+      "id": "REQ-2",
+      "summary": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form without errors",
+      "acceptanceCriteria": [
+        "Admin can fill in student name, student ID, and provide a photo (via webcam or file upload) in the RegisterStudent form.",
+        "Submitting the form successfully creates a new student profile in the backend without throwing an error.",
+        "The newly registered student appears in the StudentsManagement list after registration.",
+        "Appropriate success or error feedback is shown to the admin after form submission.",
+        "If backend validation fails (e.g., duplicate student ID), the form displays a meaningful error message."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/admin/RegisterStudent.tsx",
+          "operation": "modify",
+          "description": "Fix the student registration form to properly handle photo capture using the camera component and file upload. Ensure the form correctly prepares StudentProfile data including converting the captured/uploaded photo to ExternalBlob using ExternalBlob.fromBytes() before calling registerStudentProfile. Add proper error handling for form validation, camera errors, and backend registration failures. Display success feedback when registration completes and clear the form. Use the useCamera hook from camera/useCamera.ts to support webcam capture with proper camera initialization, preview display with stable dimensions, and photo capture. Verify the camera component's usage instructions before implementing. Handle upload progress using withUploadProgress() when submitting the photo blob. Add validation to ensure all required fields (name, studentId, photo) are provided before submission."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Fix the registerStudentProfile mutation hook to properly handle the StudentProfile type including the ExternalBlob faceData field. Ensure the mutation correctly serializes the ExternalBlob when calling actor.registerStudentProfile(). Add proper error handling and error message extraction from backend traps. After successful registration, invalidate the 'studentProfiles' query key to refresh the StudentsManagement list. Return detailed error information to enable meaningful error messages in the UI."
+        },
+        {
+          "path": "frontend/src/components/admin/StudentsManagement.tsx",
+          "operation": "modify",
+          "description": "Ensure the student list properly refreshes after a new student is registered by relying on React Query's automatic refetch when the 'studentProfiles' query is invalidated. Verify that student avatars are displayed using ExternalBlob.getDirectURL() for the faceData field. Add loading and error states if not already present."
+        }
+      ]
+    }
+  ]
+}
