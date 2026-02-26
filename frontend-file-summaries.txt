@@ -1,6 +1,6 @@
 {
-  "frontend/src/App.tsx": "Main application component that handles authentication state, profile setup, and routes between admin dashboard and student attendance views with theme provider.",
-  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for all backend operations. Enhanced registerStudentProfile and updateStudentProfile mutations with better ICP trap error message extraction (parsing \"Reject message\" and \"trapped explicitly\" patterns) to surface meaningful error messages to the UI.",
+  "frontend/src/App.tsx": "Main application component with hash-based routing updated to handle `#admin-register` (renders AdminRegister), `#admin` (renders AdminLogin/AdminDashboard based on auth/admin state), and the default student flow.",
+  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for all backend operations, now with a shared `extractError` helper and a new `useRegisterAsAdmin` mutation hook that calls `actor.registerAdminUser()` and invalidates admin-related queries on success.",
   "frontend/src/components/Header.tsx": "Application header with branding, user profile display, theme toggle, and authentication controls.",
   "frontend/src/components/Footer.tsx": "Simple footer component with copyright and caffeine.ai attribution.",
   "frontend/src/components/ProfileSetupModal.tsx": "Modal dialog for first-time user profile setup requiring name input.",
@@ -12,5 +12,7 @@
   "frontend/src/components/admin/AttendanceHistory.tsx": "Admin component showing searchable attendance records table with CSV export functionality.",
   "frontend/src/components/student/FaceRecognitionScanner.tsx": "Camera-based face recognition component that captures photos, compares with stored images, and records attendance.",
   "frontend/src/components/student/AttendanceList.tsx": "Scrollable list displaying student's attendance records with dates and times.",
-  "frontend/src/index.css": "Global styles with OKLCH color system featuring blue/indigo/purple theme for both light and dark modes."
+  "frontend/src/index.css": "Global styles with OKLCH color system featuring blue/indigo/purple theme for both light and dark modes.",
+  "frontend/src/pages/AdminLogin.tsx": "Admin login page updated to include a \"Register as Admin\" link/button that navigates to `#admin-register`, alongside the existing Internet Identity login flow and access denied messaging.",
+  "frontend/src/pages/AdminRegister.tsx": "New Admin Registration page accessible via `#admin-register` hash route; shows login prompt for unauthenticated users, a \"Register as Admin\" button for authenticated users, and handles success (auto-redirect to `#admin`) and error states with clear messaging."
 }

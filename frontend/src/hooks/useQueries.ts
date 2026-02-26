@@ -3,6 +3,14 @@ import { useActor } from './useActor';
 import type { StudentProfile, AttendanceRecord, UserProfile, StudentId, ClassId, Time } from '../backend';
 import { ExternalBlob } from '../backend';
 
+// Helper to extract meaningful error messages from ICP trap errors
+function extractError(err: any): string {
+  const raw: string = err?.message || err?.toString() || 'Unknown error';
+  const rejectMatch = raw.match(/Reject message:\s*(.+?)(?:\n|$)/i);
+  const trapMatch = raw.match(/trapped explicitly:\s*(.+?)(?:\n|$)/i);
+  return (rejectMatch?.[1] || trapMatch?.[1] || raw).trim();
+}
+
 // User Profile Queries
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
@@ -52,6 +60,26 @@ export function useIsCallerAdmin() {
   });
 }
 
+export function useRegisterAsAdmin() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      try {
+        await actor.registerAdminUser();
+      } catch (err: any) {
+        throw new Error(extractError(err));
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['isAdmin'] });
+      queryClient.invalidateQueries({ queryKey: ['currentUserRole'] });
+    },
+  });
+}
+
 // Student Profile Queries
 export function useGetAllStudentProfiles() {
   const { actor, isFetching } = useActor();
@@ -89,16 +117,7 @@ export function useRegisterStudentProfile() {
       try {
         await actor.registerStudentProfile(profile);
       } catch (err: any) {
-        // Extract the trap message from ICP error objects
-        const raw: string =
-          err?.message ||
-          err?.toString() ||
-          'Unknown error';
-        // ICP trap messages are often wrapped like: "Call failed: ... Reject message: ..."
-        const rejectMatch = raw.match(/Reject message:\s*(.+?)(?:\n|$)/i);
-        const trapMatch = raw.match(/trapped explicitly:\s*(.+?)(?:\n|$)/i);
-        const extracted = rejectMatch?.[1] || trapMatch?.[1] || raw;
-        throw new Error(extracted.trim());
+        throw new Error(extractError(err));
       }
     },
     onSuccess: () => {
@@ -117,11 +136,7 @@ export function useUpdateStudentProfile() {
       try {
         await actor.updateStudentProfile(profile);
       } catch (err: any) {
-        const raw: string = err?.message || err?.toString() || 'Unknown error';
-        const rejectMatch = raw.match(/Reject message:\s*(.+?)(?:\n|$)/i);
-        const trapMatch = raw.match(/trapped explicitly:\s*(.+?)(?:\n|$)/i);
-        const extracted = rejectMatch?.[1] || trapMatch?.[1] || raw;
-        throw new Error(extracted.trim());
+        throw new Error(extractError(err));
       }
     },
     onSuccess: () => {

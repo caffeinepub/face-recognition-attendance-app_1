@@ -1,13 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Fix the student registration flow so that admins can successfully register new students without errors.
+**Goal:** Add an admin registration flow so that an Internet Identity-authenticated user can register themselves as an admin in the FaceAttend application.
 
 **Planned changes:**
-- Fix the RegisterStudent component so that submitting the form (name, student ID, and photo via webcam or file upload) works without errors.
-- Ensure successful form submission creates a new student profile in the backend.
-- Display the newly registered student in the StudentsManagement list after registration.
-- Show appropriate success or error feedback after form submission.
-- Display a meaningful error message when backend validation fails (e.g., duplicate student ID).
+- Add a backend Motoko function to register the caller as an admin, storing their principal and role, with graceful handling of duplicate registrations
+- Create a new `AdminRegister.tsx` page with a "Register as Admin" button (enabled only when authenticated), calling the backend and redirecting on success, showing errors on failure
+- Add a `#admin-register` hash route in `App.tsx` that renders the new page, and add a navigation link from the AdminLogin page to this route
+- Add a `useRegisterAsAdmin` TanStack Query mutation hook in `useQueries.ts` that calls the backend registration function and exposes loading, error, and success states
 
-**User-visible outcome:** An admin can fill out the student registration form and successfully register a new student, who then appears in the student management list, with clear feedback on success or failure.
+**User-visible outcome:** An authenticated user can navigate to the admin registration page, register themselves as an admin, and be redirected to the admin dashboard upon success.

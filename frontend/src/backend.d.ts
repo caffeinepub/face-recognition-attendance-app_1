@@ -50,6 +50,7 @@ export interface backendInterface {
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     recordAttendance(studentId: StudentId, classId: ClassId): Promise<void>;
+    registerAdminUser(): Promise<void>;
     registerStudentProfile(profile: StudentProfile): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updateStudentProfile(profile: StudentProfile): Promise<void>;

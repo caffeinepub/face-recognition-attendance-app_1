@@ -2,11 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-fix-the-student-registration-feature-so-that-an-admin-can-successfully-register-a-new-student-by-submitting-the-registration-form-name-student-id-and-photo-in-the-registerstudent-component-without-errors",
-      "featureTitle": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form (name, student ID, and photo) in the RegisterStudent component without errors.",
+      "featureId": "feature-create-an-admin-registration-page-frontend-src-pages-adminregister-tsx-that-allows-a-user-authenticated-via-internet-identity-to-register-themselves-as-an-admin-the-page-should-call-the-backend-registration-function-and-redirect-to-the-adminlogin-or-admindashboard-page-upon-success",
+      "featureTitle": "Create an Admin Registration page (frontend/src/pages/AdminRegister.tsx) that allows a user authenticated via Internet Identity to register themselves as an admin. The page should call the backend registration function and redirect to the AdminLogin or AdminDashboard page upon success.",
       "files": [
-        "frontend/src/components/admin/RegisterStudent.tsx",
-        "frontend/src/hooks/useQueries.ts"
+        "frontend/src/pages/AdminRegister.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -20,6 +19,49 @@
       ],
       "testIds": [
         "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-frontend-src-app-tsx-to-include-the-admin-register-hash-route-and-render-the-adminregister-page-when-that-route-is-active",
+      "featureTitle": "Update frontend/src/App.tsx to include the #admin-register hash route and render the AdminRegister page when that route is active.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/AdminLogin.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-tanstack-query-mutation-hook-in-frontend-src-hooks-usequeries-ts-for-the-admin-registration-backend-call-following-the-existing-pattern-for-mutations-in-that-file",
+      "featureTitle": "Add a TanStack Query mutation hook in frontend/src/hooks/useQueries.ts for the admin registration backend call, following the existing pattern for mutations in that file.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
       ],
       "confidence": "high"
     }

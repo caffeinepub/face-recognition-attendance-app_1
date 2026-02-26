@@ -143,6 +143,7 @@ export interface backendInterface {
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     recordAttendance(studentId: StudentId, classId: ClassId): Promise<void>;
+    registerAdminUser(): Promise<void>;
     registerStudentProfile(profile: StudentProfile): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updateStudentProfile(profile: StudentProfile): Promise<void>;
@@ -427,6 +428,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.recordAttendance(arg0, arg1);
+            return result;
+        }
+    }
+    async registerAdminUser(): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.registerAdminUser();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.registerAdminUser();
             return result;
         }
     }

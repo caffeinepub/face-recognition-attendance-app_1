@@ -1,33 +1,59 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Fix student registration flow",
+  "title": "Add Admin Registration Flow",
   "requirements": [
     {
       "id": "REQ-2",
-      "summary": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form without errors",
+      "summary": "Create an Admin Registration page that allows authenticated users to self-register as admin via Internet Identity",
       "acceptanceCriteria": [
-        "Admin can fill in student name, student ID, and provide a photo (via webcam or file upload) in the RegisterStudent form.",
-        "Submitting the form successfully creates a new student profile in the backend without throwing an error.",
-        "The newly registered student appears in the StudentsManagement list after registration.",
-        "Appropriate success or error feedback is shown to the admin after form submission.",
-        "If backend validation fails (e.g., duplicate student ID), the form displays a meaningful error message."
+        "A dedicated Admin Registration page is accessible via hash route (e.g., #admin-register)",
+        "The page shows a 'Register as Admin' button that is only enabled when the user is authenticated via Internet Identity",
+        "On successful registration, the user is redirected to the admin dashboard or login page",
+        "Error messages are displayed if registration fails (e.g., already registered)"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/admin/RegisterStudent.tsx",
+          "path": "frontend/src/pages/AdminRegister.tsx",
+          "operation": "create",
+          "description": "Create the Admin Registration page component. Use the authorization component's guidance for authentication checks. Display a 'Register as Admin' button that calls the useRegisterAsAdmin mutation hook. Show loading state during registration. On success, navigate to #admin (AdminDashboard). Display error messages if registration fails (e.g., user already registered). Ensure the button is only enabled when the user is authenticated via Internet Identity. Use the useInternetIdentity hook to check authentication state. Follow the existing page patterns in AdminLogin.tsx and AdminDashboard.tsx for layout and styling consistency."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Wire the Admin Registration page into the app routing and add navigation from AdminLogin",
+      "acceptanceCriteria": [
+        "Navigating to #admin-register renders the AdminRegister page",
+        "Existing routes (#admin, default) remain unaffected",
+        "A link or button on the AdminLogin page navigates to the #admin-register route"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Fix the student registration form to properly handle photo capture using the camera component and file upload. Ensure the form correctly prepares StudentProfile data including converting the captured/uploaded photo to ExternalBlob using ExternalBlob.fromBytes() before calling registerStudentProfile. Add proper error handling for form validation, camera errors, and backend registration failures. Display success feedback when registration completes and clear the form. Use the useCamera hook from camera/useCamera.ts to support webcam capture with proper camera initialization, preview display with stable dimensions, and photo capture. Verify the camera component's usage instructions before implementing. Handle upload progress using withUploadProgress() when submitting the photo blob. Add validation to ensure all required fields (name, studentId, photo) are provided before submission."
+          "description": "Add the #admin-register hash route to the existing routing logic. Import AdminRegister from './pages/AdminRegister'. When window.location.hash is '#admin-register', render the AdminRegister page. Ensure the new route does not interfere with existing #admin and default routes. Place the new route check before the default student flow rendering."
         },
+        {
+          "path": "frontend/src/pages/AdminLogin.tsx",
+          "operation": "modify",
+          "description": "Add a link or button that navigates to #admin-register. Place it below the main login button or in a 'Don't have admin access?' section. Use a simple anchor tag or button that sets window.location.hash to 'admin-register'. Style it consistently with the existing page design."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add a TanStack Query mutation hook for admin registration backend calls",
+      "acceptanceCriteria": [
+        "A useRegisterAsAdmin mutation hook is exported from useQueries.ts",
+        "The hook calls the backend registration function using the actor",
+        "The hook returns loading, error, and success states consumable by the AdminRegister page"
+      ],
+      "file_operations": [
         {
           "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Fix the registerStudentProfile mutation hook to properly handle the StudentProfile type including the ExternalBlob faceData field. Ensure the mutation correctly serializes the ExternalBlob when calling actor.registerStudentProfile(). Add proper error handling and error message extraction from backend traps. After successful registration, invalidate the 'studentProfiles' query key to refresh the StudentsManagement list. Return detailed error information to enable meaningful error messages in the UI."
-        },
-        {
-          "path": "frontend/src/components/admin/StudentsManagement.tsx",
-          "operation": "modify",
-          "description": "Ensure the student list properly refreshes after a new student is registered by relying on React Query's automatic refetch when the 'studentProfiles' query is invalidated. Verify that student avatars are displayed using ExternalBlob.getDirectURL() for the faceData field. Add loading and error states if not already present."
+          "description": "Add a new mutation hook named useRegisterAsAdmin following the existing mutation patterns in this file (similar to useSaveCallerUserProfile or useRegisterStudentProfile). The hook should call actor.registerAdminUser() when invoked. Use useMutation from @tanstack/react-query. Include error extraction using the existing extractError utility. Export the hook so it can be used in the AdminRegister page. The mutation should invalidate relevant queries (e.g., 'currentUserRole', 'isCallerAdmin') on success to refresh authorization state."
         }
       ]
     }

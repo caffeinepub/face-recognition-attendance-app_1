@@ -72,6 +72,7 @@ export interface _SERVICE {
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'recordAttendance' : ActorMethod<[StudentId, ClassId], undefined>,
+  'registerAdminUser' : ActorMethod<[], undefined>,
   'registerStudentProfile' : ActorMethod<[StudentProfile], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'updateStudentProfile' : ActorMethod<[StudentProfile], undefined>,

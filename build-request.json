@@ -1,38 +1,91 @@
 {
   "kind": "build_request",
-  "title": "Fix student registration flow",
+  "title": "Add Admin Registration Flow",
   "projectName": "FaceAttend",
-  "priority": "high",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-2",
-      "text": "Fix the student registration feature so that an admin can successfully register a new student by submitting the registration form (name, student ID, and photo) in the RegisterStudent component without errors.",
-      "target": "both",
+      "id": "REQ-1",
+      "text": "Add a backend function to register a new admin user, storing their principal and role. The function should allow a caller to self-register as an admin (or require a one-time setup token/first-admin mechanism if no admin exists yet).",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-9"
         ],
         "quotes": [
-          "i cant register a student"
+          "i want to register as an admn"
         ]
       },
       "acceptanceCriteria": [
-        "Admin can fill in student name, student ID, and provide a photo (via webcam or file upload) in the RegisterStudent form.",
-        "Submitting the form successfully creates a new student profile in the backend without throwing an error.",
-        "The newly registered student appears in the StudentsManagement list after registration.",
-        "Appropriate success or error feedback is shown to the admin after form submission.",
-        "If backend validation fails (e.g., duplicate student ID), the form displays a meaningful error message."
+        "A Motoko function exists to register the caller as an admin",
+        "The registered principal is stored with an admin role",
+        "Duplicate registration is handled gracefully (returns an error or no-op if already admin)"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create an Admin Registration page (frontend/src/pages/AdminRegister.tsx) that allows a user authenticated via Internet Identity to register themselves as an admin. The page should call the backend registration function and redirect to the AdminLogin or AdminDashboard page upon success.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-9"
+        ],
+        "quotes": [
+          "i want to register as an admn"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A dedicated Admin Registration page is accessible via hash route (e.g., #admin-register)",
+        "The page shows a 'Register as Admin' button that is only enabled when the user is authenticated via Internet Identity",
+        "On successful registration, the user is redirected to the admin dashboard or login page",
+        "Error messages are displayed if registration fails (e.g., already registered)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Update frontend/src/App.tsx to include the #admin-register hash route and render the AdminRegister page when that route is active.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-9"
+        ],
+        "quotes": [
+          "i want to register as an admn"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigating to #admin-register renders the AdminRegister page",
+        "Existing routes (#admin, default) remain unaffected",
+        "A link or button on the AdminLogin page navigates to the #admin-register route"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add a TanStack Query mutation hook in frontend/src/hooks/useQueries.ts for the admin registration backend call, following the existing pattern for mutations in that file.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-9"
+        ],
+        "quotes": [
+          "i want to register as an admn"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A useRegisterAsAdmin mutation hook is exported from useQueries.ts",
+        "The hook calls the backend registration function using the actor",
+        "The hook returns loading, error, and success states consumable by the AdminRegister page"
       ]
     }
   ],
   "constraints": [
-    "Do not change the overall single-actor Motoko architecture in backend/main.mo.",
-    "Do not modify any files listed in frontend.immutablePaths."
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
+    "All Motoko logic must remain in backend/main.mo as a single actor"
   ],
   "nonGoals": [
-    "Adding new student profile fields beyond name, student ID, and photo.",
-    "Changing the face recognition scanning or attendance marking logic.",
-    "Modifying the admin authentication or role-based access control logic."
+    "Changing the existing AdminLogin page behavior",
+    "Modifying student registration or attendance features",
+    "Adding social or email-based authentication"
   ],
   "imageRequirements": {
     "required": [],
